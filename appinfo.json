@@ -1,0 +1,150 @@
+{
+    "appKeys": {
+        "WEAT_ICON_KEY": 0,
+        "WEAT_TEMP_KEY": 1
+    },
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "Ian McLinden",
+    "longName": "Basic Digital - IJM",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/weat_nil.png",
+                "name": "WEAT_NIL",
+                "type": "png"
+            },
+            {
+                "file": "images/weat_snow.png",
+                "name": "WEAT_SNOW",
+                "type": "png"
+            },
+            {
+                "file": "images/weat_cloud.png",
+                "name": "WEAT_CLOUD",
+                "type": "png"
+            },
+            {
+                "file": "images/weat_sun.png",
+                "name": "WEAT_SUN",
+                "type": "png"
+            },
+            {
+                "file": "images/weat_rain.png",
+                "name": "WEAT_RAIN",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_charging.png",
+                "name": "BATT_CHARGING",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_overlay.png",
+                "name": "BATT_OVERLAY",
+                "type": "png-trans"
+            },
+            {
+                "characterRegex": "[0-9A-Za-z;.,%\u00ba ]",
+                "file": "fonts/OpenSans-Regular.ttf",
+                "name": "OPEN_SANS_14",
+                "type": "font"
+            },
+            {
+                "file": "images/app_icon.png",
+                "menuIcon": true,
+                "name": "APP_ICON_28x_28",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_0.png",
+                "name": "BATT_0",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_10.png",
+                "name": "BATT_10",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_20.png",
+                "name": "BATT_20",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_30.png",
+                "name": "BATT_30",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_40.png",
+                "name": "BATT_40",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_50.png",
+                "name": "BATT_50",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_60.png",
+                "name": "BATT_60",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_70.png",
+                "name": "BATT_70",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_80.png",
+                "name": "BATT_80",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_90.png",
+                "name": "BATT_90",
+                "type": "png"
+            },
+            {
+                "file": "images/batt_100.png",
+                "name": "BATT_100",
+                "type": "png"
+            },
+            {
+                "characterRegex": "[0-9C%\u00ba ]",
+                "file": "fonts/OpenSans-Light.ttf",
+                "name": "OPEN_SANS_LIGHT_12",
+                "type": "font"
+            },
+            {
+                "file": "images/bt_on.png",
+                "name": "BT_ON",
+                "type": "png"
+            },
+            {
+                "file": "images/bt_off.png",
+                "name": "BT_OFF",
+                "type": "png"
+            },
+            {
+                "characterRegex": "[0-9A-Za-z:. ]",
+                "file": "fonts/Roboto-Condensed.ttf",
+                "name": "ROBOTO_CONDENSED_58",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Basic Digital",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "30048c70-6c0b-4970-88da-fdae03788c27",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
