@@ -4,8 +4,8 @@
 static Window *s_main_window;
 
 // Declare Layers
-static TextLayer *s_time_layer, *s_date_layer, *s_battery_layer, *s_weather_layer;
-static BitmapLayer *s_batteryimg_layer, *s_batteryoverlay_layer, *s_bt_layer, *s_weatherimg_layer;
+static TextLayer *s_time_layer, *s_date_layer, *s_battery_layer; //*s_weather_layer;
+static BitmapLayer *s_batteryimg_layer, *s_batteryoverlay_layer, *s_bt_layer; //*s_weatherimg_layer;
 
 // Create Text Format Consts
 static char battery_text[] = "100%";
@@ -15,28 +15,30 @@ static char s_date_text[32];
 // Declare Custom Fonts
 static GFont *roboto_condensed_58, *open_sans_light_12, *open_sans_14;
 
-// Declare Weather 
-enum WeatherKey {
-  WEAT_ICON_KEY = 0x0,  // TUPLE_INT
-  WEAT_TEMP_KEY = 0x1,  // TUPLE_CSTRING
-};
 
-static const uint32_t WEATHER_ICONS[] = {
-  RESOURCE_ID_WEAT_SUN,   // 0
-  RESOURCE_ID_WEAT_CLOUD, // 1
-  RESOURCE_ID_WEAT_RAIN,  // 2
-  RESOURCE_ID_WEAT_SNOW,  // 3
-  RESOURCE_ID_WEAT_NIL    // 4
-};
+// Declare Weather 
+// enum WeatherKey {
+//   WEAT_ICON_KEY = 0x0,  // TUPLE_INT
+//   WEAT_TEMP_KEY = 0x1,  // TUPLE_CSTRING
+// };
+
+// static const uint32_t WEATHER_ICONS[] = {
+//   RESOURCE_ID_WEAT_SUN,   // 0
+//   RESOURCE_ID_WEAT_CLOUD, // 1
+//   RESOURCE_ID_WEAT_RAIN,  // 2
+//   RESOURCE_ID_WEAT_SNOW,  // 3
+//   RESOURCE_ID_WEAT_NIL    // 4
+// };
+
 
 // Declare Icons
 static GBitmap *batt_0, *batt_10, *batt_20, *batt_30, *batt_40, *batt_50, *batt_60, *batt_70, *batt_80, *batt_90, *batt_100, *batt_charging, *batt_overlay;
 static GBitmap *bt_off, *bt_on;
-static GBitmap *weat_img = NULL;
+// static GBitmap *weat_img = NULL;
 
 // Declare Utility Vars
-static AppSync s_sync;
-static uint8_t s_sync_buffer[64];
+// static AppSync s_sync;
+// static uint8_t s_sync_buffer[64];
 struct tm last_time;
 
 /******************************** Battery Handlers ********************************/
@@ -48,38 +50,27 @@ static void handle_battery(BatteryChargeState charge_state) {
 
   } else {
 	switch (charge_state.charge_percent) {
-		case 96 ... 100:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_100);
+		case 96 ... 100: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_100);
 			break;
-		case 81 ... 95:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_90);
+		case 81 ... 95: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_90);
 			break;
-		case 71 ... 80:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_80);
+		case 71 ... 80: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_80);
 			break;
-		case 61 ... 70:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_70);
+		case 61 ... 70: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_70);
 			break;
-		case 51 ... 60:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_60);
+		case 51 ... 60: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_60);
 			break;
-		case 41 ... 50:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_50);
+		case 41 ... 50: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_50);
 			break;
-		case 31 ... 40:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_40);
+		case 31 ... 40: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_40);
 			break;
-		case 21 ... 30:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_30);
+		case 21 ... 30: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_30);
 			break;
-		case 11 ... 20:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_20);
+		case 11 ... 20: bitmap_layer_set_bitmap(s_batteryimg_layer, batt_20);
 			break;
-		case 6 ... 10:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_10);
+		case 6 ... 10:  bitmap_layer_set_bitmap(s_batteryimg_layer, batt_10);
 			break;
-		case 0 ... 5:
-			bitmap_layer_set_bitmap(s_batteryimg_layer, batt_0);
+		case 0 ... 5:   bitmap_layer_set_bitmap(s_batteryimg_layer, batt_0);
 			break;
 	}
   }
@@ -90,11 +81,9 @@ static void handle_battery(BatteryChargeState charge_state) {
 /******************************** Clock Use ********************************/
 
 static void handle_second_tick(struct tm* tick_time, TimeUnits units_changed) {
-	
-  bool is_24hr = clock_is_24h_style();
-	
+
   // Hour : Min
-  if (is_24hr) {
+  if (clock_is_24h_style()) {
 	  strftime(s_time_text, sizeof(s_time_text), "%T", tick_time);
 	  text_layer_set_text(s_time_layer, s_time_text);
   } else {
@@ -117,53 +106,55 @@ static void handle_bluetooth(bool connected) {
   bitmap_layer_set_bitmap(s_bt_layer, connected ? bt_on : bt_off);
 	if (!connected) {
 		vibes_short_pulse();
-		text_layer_set_text(s_weather_layer, "");
-		if (weat_img) {
-        	gbitmap_destroy(weat_img);
-		}
+// 		text_layer_set_text(s_weather_layer, "");
+// 		if (weat_img) {
+//         	gbitmap_destroy(weat_img);
+// 		}
 	}
 }
 
 /******************************** Weather Handlers ********************************/
 
-static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void *context) {
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Sync Error: %d", app_message_error);
-}
+/**** Weather Handlers Disabled for Battery Life ****/
 
-static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
-  switch (key) {
-    case WEAT_ICON_KEY:
-      if (weat_img) {
-        gbitmap_destroy(weat_img);
-      }
+// static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void *context) {
+//   APP_LOG(APP_LOG_LEVEL_DEBUG, "App Message Sync Error: %d", app_message_error);
+// }
 
-      weat_img = gbitmap_create_with_resource(WEATHER_ICONS[new_tuple->value->uint8]);
+// static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tuple, const Tuple* old_tuple, void* context) {
+//   switch (key) {
+//     case WEAT_ICON_KEY:
+//       if (weat_img) {
+//         gbitmap_destroy(weat_img);
+//       }
 
-      bitmap_layer_set_bitmap(s_weatherimg_layer, weat_img);
-      break;
+//       weat_img = gbitmap_create_with_resource(WEATHER_ICONS[new_tuple->value->uint8]);
 
-    case WEAT_TEMP_KEY:
-      // App Sync keeps new_tuple in s_sync_buffer, so we may use it directly
-      text_layer_set_text(s_weather_layer, new_tuple->value->cstring);
-      break;
-  }
-}
+//       bitmap_layer_set_bitmap(s_weatherimg_layer, weat_img);
+//       break;
 
-static void request_weather(void) {
-  DictionaryIterator *iter;
-  app_message_outbox_begin(&iter);
+//     case WEAT_TEMP_KEY:
+//       // App Sync keeps new_tuple in s_sync_buffer, so we may use it directly
+//       text_layer_set_text(s_weather_layer, new_tuple->value->cstring);
+//       break;
+//   }
+// }
 
-  if (!iter) {
-    // Error creating outbound message
-    return;
-  }
+// static void request_weather(void) {
+//   DictionaryIterator *iter;
+//   app_message_outbox_begin(&iter);
 
-  int value = 1;
-  dict_write_int(iter, 1, &value, sizeof(int), true);
-  dict_write_end(iter);
+//   if (!iter) {
+//     // Error creating outbound message
+//     return;
+//   }
 
-  app_message_outbox_send();
-}
+//   int value = 1;
+//   dict_write_int(iter, 1, &value, sizeof(int), true);
+//   dict_write_end(iter);
+
+//   app_message_outbox_send();
+// }
 
 /******************************** Main Load ********************************/
 
@@ -222,16 +213,16 @@ static void main_window_load(Window *window) {
   s_batteryoverlay_layer = bitmap_layer_create(GRect((bounds.size.w-26), 4, 24, 12));
   bitmap_layer_set_bitmap(s_batteryoverlay_layer, batt_overlay);
   bitmap_layer_set_compositing_mode(s_batteryoverlay_layer, GCompOpOr);
+
+//   // Set Weather Text Layer
+//   s_weather_layer = text_layer_create(GRect(36, 3, 32, 12));
+//   text_layer_set_text_color(s_weather_layer, GColorWhite);
+//   text_layer_set_background_color(s_weather_layer, GColorClear);
+//   text_layer_set_font(s_weather_layer, open_sans_light_12);
+//   text_layer_set_text_alignment(s_weather_layer, GTextAlignmentLeft);
 	
-  // Set Weather Text Layer
-  s_weather_layer = text_layer_create(GRect(36, 3, 32, 12));
-  text_layer_set_text_color(s_weather_layer, GColorWhite);
-  text_layer_set_background_color(s_weather_layer, GColorClear);
-  text_layer_set_font(s_weather_layer, open_sans_light_12);
-  text_layer_set_text_alignment(s_weather_layer, GTextAlignmentLeft);
-	
-  // Set Weather Bitmaps
-  s_weatherimg_layer = bitmap_layer_create(GRect(18, 4, 16, 12));
+//   // Set Weather Bitmaps
+//   s_weatherimg_layer = bitmap_layer_create(GRect(18, 4, 16, 12));
 	
   // Ensures time is displayed immediately (will break if NULL tick event accessed).
   // (This is why it's a good idea to have a separate routine to do the update itself.)
@@ -250,19 +241,18 @@ static void main_window_load(Window *window) {
   layer_add_child(window_layer, bitmap_layer_get_layer(s_batteryimg_layer));
   layer_add_child(window_layer, bitmap_layer_get_layer(s_batteryoverlay_layer));
   layer_add_child(window_layer, bitmap_layer_get_layer(s_bt_layer));
-  layer_add_child(window_layer, text_layer_get_layer(s_weather_layer));
-  layer_add_child(window_layer, bitmap_layer_get_layer(s_weatherimg_layer));
+//   layer_add_child(window_layer, text_layer_get_layer(s_weather_layer));
+//   layer_add_child(window_layer, bitmap_layer_get_layer(s_weatherimg_layer));
 	
-  Tuplet initial_values[] = {
-    TupletInteger(WEAT_ICON_KEY, (uint8_t) 4),
-    TupletCString(WEAT_TEMP_KEY, "")
-  };
+//   Tuplet initial_values[] = {
+//     TupletInteger(WEAT_ICON_KEY, (uint8_t) 4),
+//     TupletCString(WEAT_TEMP_KEY, "")
+//   };
 	
-  app_sync_init(&s_sync, s_sync_buffer, sizeof(s_sync_buffer),
-  	initial_values, ARRAY_LENGTH(initial_values),
-  	sync_tuple_changed_callback, sync_error_callback, NULL);
+//   app_sync_init(&s_sync, s_sync_buffer, sizeof(s_sync_buffer),initial_values, ARRAY_LENGTH(initial_values),sync_tuple_changed_callback, sync_error_callback, NULL);
 	
-  request_weather();
+//   request_weather();
+
 }
 
 /******************************** Main Unload ********************************/
@@ -280,9 +270,9 @@ static void main_window_unload(Window *window) {
   bitmap_layer_destroy(s_bt_layer);
   text_layer_destroy(s_battery_layer);
   bitmap_layer_destroy(s_batteryoverlay_layer);
-  text_layer_destroy(s_weather_layer);
-  bitmap_layer_destroy(s_weatherimg_layer);
-  
+//   text_layer_destroy(s_weather_layer);
+//   bitmap_layer_destroy(s_weatherimg_layer);
+	
   // Destroy Image Pointers
   gbitmap_destroy(batt_0);
   gbitmap_destroy(batt_10);
@@ -300,9 +290,9 @@ static void main_window_unload(Window *window) {
   gbitmap_destroy(bt_on);
   gbitmap_destroy(batt_overlay);
 	
-  if (weat_img) {
-    gbitmap_destroy(weat_img);
-  }
+//   if (weat_img) {
+//     gbitmap_destroy(weat_img);
+//   }
 }
 
 /******************************** Maintenance ********************************/
@@ -315,12 +305,12 @@ static void init() {
     .unload = main_window_unload,
   });
   window_stack_push(s_main_window, true);
-  app_message_open(64, 64);
+//   app_message_open(64, 64);
 }
 
 static void deinit() {
   window_destroy(s_main_window);
-  app_sync_deinit(&s_sync);
+//   app_sync_deinit(&s_sync);
 }
 
 int main(void) {

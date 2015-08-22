@@ -1,3 +1,5 @@
+var lastCoords;
+
 function iconFromWeatherId(weatherId) {
   if (weatherId < 600) {
     return 2;
@@ -37,14 +39,16 @@ function fetchWeather(latitude, longitude) {
 
 function locationSuccess(pos) {
   var coordinates = pos.coords;
+  lastCoords = pos.coords;
   fetchWeather(coordinates.latitude, coordinates.longitude);
 }
 
 function locationError(err) {
   console.warn('location error (' + err.code + '): ' + err.message);
-  Pebble.sendAppMessage({
-    'WEAT_TEMP_KEY': 'N/A'
-  });
+  fetchWeather(lastCoords.latitude, lastCoords.longitude);
+//   Pebble.sendAppMessage({
+//     'WEAT_TEMP_KEY': 'N/A'
+//   });
 }
 
 var locationOptions = {
