@@ -7,10 +7,16 @@
         ""
     ],
     "companyName": "Ian McLinden",
-    "longName": "Basic Digital - IJM",
+    "longName": "Digi Sleek - IJM",
     "projectType": "native",
     "resources": {
         "media": [
+            {
+                "file": "images/app_icon.png",
+                "menuIcon": true,
+                "name": "APP_ICON_28x_28",
+                "type": "png"
+            },
             {
                 "file": "images/weat_nil.png",
                 "name": "WEAT_NIL",
@@ -51,12 +57,6 @@
                 "file": "fonts/OpenSans-Regular.ttf",
                 "name": "OPEN_SANS_14",
                 "type": "font"
-            },
-            {
-                "file": "images/app_icon.png",
-                "menuIcon": true,
-                "name": "APP_ICON_28x_28",
-                "type": "png"
             },
             {
                 "file": "images/batt_0.png",
@@ -138,12 +138,12 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "Basic Digital",
+    "shortName": "Digi Sleek",
     "targetPlatforms": [
         "basalt"
     ],
-    "uuid": "30048c70-6c0b-4970-88da-fdae03788c27",
-    "versionLabel": "1.0",
+    "uuid": "505c2cb5-4674-472a-8190-276a30d60bb5",
+    "versionLabel": "1.1",
     "watchapp": {
         "watchface": true
     }
